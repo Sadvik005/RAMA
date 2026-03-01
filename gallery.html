@@ -178,6 +178,10 @@
         @keyframes heartBeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
 
         @media (max-width: 600px) { .btn-group { flex-direction: column; align-items: center; } button { width: 90%; } }
+
+        #daysCounter {
+    transition: all 2s ease-in-out; /* Smoothly fades the color and glow in */
+}
     </style>
 </head>
 <body>
@@ -323,9 +327,35 @@
             }
         }
 
-        const wedding = new Date("2025-03-02");
-        const diff = Math.floor((new Date() - wedding) / (1000 * 60 * 60 * 24));
-        document.getElementById("daysCounter").innerText = `${diff} Days in the Universe`;
+// --- ANNIVERSARY COUNTER LOGIC ---
+function updateLiveCounter() {
+    const counterEl = document.getElementById("daysCounter");
+    
+    // Set wedding to exactly midnight March 2nd, 2025
+    const weddingDate = new Date("2025-03-02T00:00:00");
+    const now = new Date();
+    
+    // Calculate the difference
+    const diffInMs = now - weddingDate;
+    const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+
+    if (diffInDays >= 365) {
+        // This triggers exactly at 12:00 AM March 2nd
+        counterEl.innerText = "365 DAYS OF TOGETHERNESS";
+        counterEl.style.color = "var(--gold)";
+        counterEl.style.textShadow = "0 0 20px rgba(255, 215, 0, 0.8)";
+        counterEl.style.letterSpacing = "6px";
+        counterEl.style.fontWeight = "bold";
+    } else {
+        // Shows 364 until the clock hits 12:00
+        counterEl.innerText = `${diffInDays} Days in the Universe`;
+    }
+}
+
+// Check every 1 second to catch the midnight transition live
+setInterval(updateLiveCounter, 1000);
+updateLiveCounter(); // Run once immediately on load
+// --------------------------------
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
