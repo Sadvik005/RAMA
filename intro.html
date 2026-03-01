@@ -88,18 +88,23 @@
         #star-manasa { background: var(--manasa-pink); box-shadow: 0 0 30px var(--manasa-pink); }
 
         /* Cinematic Text */
-        .line {
-            opacity: 0;
-            font-size: 1.1rem;
-            margin: 12px;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            font-weight: 200;
-            transition: all 2s ease;
-            z-index: 10;
-        }
+.line {
+    opacity: 0;
+   font-size: clamp(0.9rem, 4.5vw, 1.25rem);
+    margin: 10px 0;
+    letter-spacing: clamp(1px, 1vw, 5px);
+    text-transform: uppercase;
+    font-weight: 200;
+    transition: all 2s ease;
+    z-index: 10;
+    max-width: 90%;
+}
 
-        .show { opacity: 0.7; transform: scale(1.05); letter-spacing: 8px; }
+        .show {
+    opacity: 0.8;
+    transform: scale(1.02);
+    letter-spacing: clamp(2px, 1.5vw, 6px);
+}
 
         .name-container {
             display: flex;
@@ -141,6 +146,35 @@
             filter: brightness(2) contrast(1.2);
             transition: 2s;
         }
+
+        @media (max-width: 768px) {
+
+    body {
+        padding: 15px;
+    }
+
+    .line {
+        font-size: 0.8rem;
+        letter-spacing: 2px;
+    }
+
+    .name-container {
+        font-size: clamp(2.2rem, 10vw, 3rem);
+        gap: 10px;
+        margin: 20px 0;
+    }
+
+    #heart-icon {
+        font-size: 1.5rem;
+    }
+
+    #cruise-rocket {
+        font-size: 40px;
+        top: 8%;
+    }
+}
+
+    
     </style>
 </head>
 
@@ -155,8 +189,8 @@
         <div class="engine-glow"></div>
     </div>
 
-    <div class="line" id="l1">Beyond the stars...</div>
-    <div class="line" id="l2">A destiny was written.</div>
+<div class="line" id="l1">In a world of billions... 🌍</div>
+    <div class="line" id="l2">Two souls found each other... 💫</div>
 
     <div class="name-container">
         <span id="name-ravi" class="intro-name">Ravi</span>
@@ -164,7 +198,9 @@
         <span id="name-manasa" class="intro-name">Manasa</span>
     </div>
 
-    <div class="line" id="l3">Two hearts, One Universe.</div>
+    <div class="line" id="l3">A promise was made... 💍</div>
+    <div class="line" id="l4">A journey began... ✨</div>
+
 
     <script>
         const canvas = document.getElementById('galaxy-canvas');
@@ -286,7 +322,16 @@
                 document.getElementById("heart-icon").classList.add("heart-pop"); 
             }, 10500);
 
-            setTimeout(() => document.getElementById("l3").classList.add("show"), 12000);
+           // Show l3
+setTimeout(() => {
+    document.getElementById("l3").classList.add("show");
+}, 12000);
+
+// Hide l3 and show l4
+setTimeout(() => {
+    document.getElementById("l3").classList.remove("show");
+    document.getElementById("l4").classList.add("show");
+}, 14000);
 
             // Cinematic Exit
             setTimeout(() => {
@@ -295,12 +340,12 @@
                 document.body.classList.add("warp-speed");
                 document.getElementById("cruise-rocket").style.top = "120%";
                 document.getElementById("cruise-rocket").style.left = "50%";
-            }, 15000);
+            }, 16000);
 
             setTimeout(() => {
                 document.body.style.opacity = "0";
                 document.body.style.transition = "2s";
-                setTimeout(() => { window.location.href = "memory.html"; }, 2000);
+                setTimeout(() => { window.location.href = "memory.html"; }, 1800);
             }, 17000);
         };
     </script>
