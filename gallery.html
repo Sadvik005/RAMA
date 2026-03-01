@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>RAMA ❤️ SITA | A Galactic Journey</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #ff4d6d;
+            --gold: #ffd700;
+            --glass: rgba(255, 255, 255, 0.05);
+            --accent-glow: rgba(255, 77, 109, 0.3);
+        }
+
+        html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; touch-action: manipulation; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            background: #000;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            width: 100%;
+            position: relative;
+        }
+
+        /* 🌌 GALAXY BACKGROUND */
+        #galaxy-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        .nebula {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(255, 77, 109, 0.1) 0%, transparent 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* 🚀 ROCKET ANIMATION */
+        #rocket {
+            position: fixed;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 50px;
+            z-index: 9999;
+            display: none;
+            filter: drop-shadow(0 0 20px orange);
+            pointer-events: none;
+        }
+
+        @keyframes launch {
+            0% { bottom: -100px; transform: translateX(-50%) scale(1); }
+            70% { bottom: 50%; transform: translateX(-50%) scale(1.5); }
+            100% { bottom: 120%; transform: translateX(-50%) scale(2); opacity: 0; }
+        }
+
+        /* 🎬 CONTENT LAYOUT */
+        .main-content {
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            position: relative;
+            z-index: 10;
+        }
+
+        .main-content.visible { opacity: 1; }
+        .main-content.hidden { opacity: 0; pointer-events: none; }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(45px, 12vw, 120px);
+            background: linear-gradient(to bottom, #fff, var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(255,215,0,0.3));
+            margin: 10px 0;
+        }
+
+        #daysCounter {
+            font-size: clamp(10px, 3vw, 14px);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .btn-group { display: flex; gap: 15px; margin-top: 40px; flex-wrap: wrap; justify-content: center; }
+
+        button {
+            padding: 14px 28px; border-radius: 50px; border: none; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 1px; cursor: pointer;
+            transition: transform 0.3s; font-size: 12px; min-width: 160px;
+        }
+
+        button:active { transform: scale(0.95); }
+        .btn-main { background: var(--primary); color: white; box-shadow: 0 10px 20px var(--accent-glow); }
+        .btn-outline { background: transparent; border: 1px solid #fff; color: #fff; }
+        .btn-rocket { background: linear-gradient(45deg, #ff9e00, #ff4d6d); color: white; }
+
+        /* 🎥 SPACE THEATER */
+        #videoModal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 20000;
+            padding: 20px;
+        }
+
+        .video-card-container {
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+            animation: floatVideo 4s ease-in-out infinite;
+        }
+
+        @keyframes floatVideo {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-20px) scale(1.02); }
+        }
+
+        #videoModal video {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 0 50px rgba(255, 77, 109, 0.5), 0 0 100px rgba(255, 215, 0, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            display: block;
+        }
+
+        .close-vid {
+            position: absolute;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 10px 25px;
+            border: 1px solid #fff;
+            border-radius: 30px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            font-size: 12px;
+        }
+
+        /* SECTIONS */
+        .section-title { text-align: center; font-size: clamp(32px, 8vw, 48px); margin: 80px 0 30px; font-family: 'Dancing Script', cursive; color: var(--gold); }
+        .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; max-width: 1100px; margin: 0 auto 50px; padding: 0 20px; }
+        .card { height: clamp(350px, 60vh, 450px); border-radius: 20px; overflow: hidden; background: var(--glass); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); }
+        .card img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+        
+        #letterModal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: none; justify-content: center; align-items: center; z-index: 10000; padding: 20px; }
+        #letterBox { background: #fff; color: #333; border-radius: 30px; max-width: 500px; text-align: center; padding: 40px; }
+
+        .reveal { opacity: 0; transform: translateY(30px); transition: 1.2s; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        footer { padding: 80px 20px; text-align: center; }
+        .footer-line { width: 60px; height: 2px; background: var(--gold); margin: 0 auto 20px; }
+        .signature { font-family: 'Dancing Script', cursive; font-size: 28px; }
+        .signature span { color: var(--primary); display: inline-block; animation: heartBeat 2s infinite; }
+
+        @keyframes heartBeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+
+        @media (max-width: 600px) { .btn-group { flex-direction: column; align-items: center; } button { width: 90%; } }
+    </style>
+</head>
+<body>
+
+    <canvas id="galaxy-canvas"></canvas>
+    <div class="nebula" id="nebula"></div>
+    <div id="rocket">🚀</div>
+
+    <div class="main-content" id="mainContent">
+        <section class="hero">
+            <div id="daysCounter">Calculating Stars...</div>
+            <h1 id="typingTitle"></h1>
+            <p id="quote" style="height: 24px; font-style: italic; opacity: 0.7; margin-top: 10px;"></p>
+            
+            <div class="btn-group">
+                <button class="btn-rocket" onclick="launchRocket('video')">🚀 Launch Memory</button>
+                
+                <button class="btn-main" onclick="launchRocket('magic')" style="background: linear-gradient(45deg, #6247aa, #ff4d6d);">🌌 Click To See Magic</button>
+                
+                <button class="btn-outline" onclick="openLetter()">💌 Heart Note</button>
+            </div>
+        </section>
+
+        <h2 class="section-title reveal">The Promise</h2>
+        <div class="gallery reveal">
+            <div class="card"><img src="WhatsApp Image 2026-03-01 at 10.34.28.jpeg"></div>
+            <div class="card"><img src="WhatsApp Image 2026-02-26 at 14.06.41.jpeg"></div>
+        </div>
+
+        <h2 class="section-title reveal">The Big Day</h2>
+        <div class="gallery reveal">
+            <div class="card"><img src="WhatsApp Image 2026-02-26 at 13.55.53.jpeg"></div>
+            <div class="card"><img src="WhatsApp Image 2026-02-26 at 13.45.48.jpeg"></div>
+        </div>
+
+        <footer class="reveal">
+            <div class="footer-line"></div>
+            <p style="font-size: 11px; letter-spacing: 3px; opacity: 0.6; margin-bottom: 10px;">CRAFTED WITH LOVE</p>
+            <div class="signature">by Yash <span>❤️</span></div>
+            <p style="margin-top: 30px; font-size: 9px; opacity: 0.3; letter-spacing: 2px;">© 2026 FOR RAVI & MANASA</p>
+        </footer>
+    </div>
+
+    <div id="videoModal">
+        <div class="video-card-container">
+            <button class="close-vid" onclick="closeVideo()">✕ RETURN TO EARTH</button>
+            <video id="memoryVideo" controls playsinline>
+                <source src="WhatsApp Video 2026-03-01 at 15.26.57.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+    <div id="letterModal">
+        <div id="letterBox">
+            <h2 style="color: var(--primary); font-family: 'Dancing Script';">To My Dearest Atthigaww and Annayaa</h2>
+            <p style="margin: 20px 0;">Your wedding day will always hold a special place in my heart. Wishing you both a life filled with peace, prosperity, and togetherness. Happy Anniversary✨</p>
+            <button class="btn-main" onclick="closeLetter()">Close with Love</button>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('galaxy-canvas');
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+        let speedMultiplier = 0.8;
+
+        function initBG() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            stars = [];
+            for (let i = 0; i < (window.innerWidth < 768 ? 200 : 450); i++) {
+                stars.push({
+                    x: Math.random() * canvas.width - canvas.width / 2,
+                    y: Math.random() * canvas.height - canvas.height / 2,
+                    z: Math.random() * canvas.width,
+                    o: Math.random()
+                });
+            }
+        }
+
+        function drawBG() {
+            ctx.fillStyle = "black";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.save();
+            ctx.translate(canvas.width / 2, canvas.height / 2);
+            for (let i = 0; i < stars.length; i++) {
+                let s = stars[i];
+                s.z -= speedMultiplier;
+                if (s.z <= 0) s.z = canvas.width;
+                let sx = (s.x / s.z) * canvas.width;
+                let sy = (s.y / s.z) * canvas.height;
+                let size = (1 - s.z / canvas.width) * 2;
+                ctx.fillStyle = `rgba(255, 255, 255, ${s.o})`;
+                ctx.beginPath();
+                ctx.arc(sx, sy, size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            ctx.restore();
+            requestAnimationFrame(drawBG);
+        }
+
+        /** Unified Rocket Logic **/
+        function launchRocket(destination) {
+            const rocket = document.getElementById('rocket');
+            const main = document.getElementById('mainContent');
+            
+            rocket.style.display = 'block';
+            rocket.style.animation = 'launch 1.8s ease-in forwards';
+            main.classList.add('hidden'); 
+            speedMultiplier = 6; // Fast warp speed
+
+            setTimeout(() => {
+                if(destination === 'video') {
+                    document.getElementById('videoModal').style.display = 'flex';
+                    document.getElementById('memoryVideo').play();
+                } else if(destination === 'magic') {
+                    // Navigate to photos.html after rocket blast
+                    window.location.href = "photos.html";
+                }
+                rocket.style.display = 'none';
+            }, 1600);
+        }
+
+        function closeVideo() {
+            document.getElementById('videoModal').style.display = 'none';
+            document.getElementById('mainContent').classList.remove('hidden');
+            document.getElementById('memoryVideo').pause();
+            speedMultiplier = 0.8;
+        }
+
+        const titleText = "Ravi ❤️ Manasa";
+        let charIdx = 0;
+        function type() {
+            if (charIdx < titleText.length) {
+                document.getElementById("typingTitle").innerHTML += titleText.charAt(charIdx);
+                charIdx++;
+                setTimeout(type, 150);
+            }
+        }
+
+        const wedding = new Date("2025-03-02");
+        const diff = Math.floor((new Date() - wedding) / (1000 * 60 * 60 * 24));
+        document.getElementById("daysCounter").innerText = `${diff} Days in the Universe`;
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        function openLetter() { document.getElementById("letterModal").style.display = "flex"; }
+        function closeLetter() { document.getElementById("letterModal").style.display = "none"; }
+
+        setTimeout(() => { document.getElementById('mainContent').classList.add('visible'); type(); }, 1000);
+        initBG(); drawBG();
+        window.addEventListener('resize', initBG);
+    </script>
+
+<audio id="bgMusic" loop preload="auto">
+    <source src="Indila_-_Love_Story_Piano_cover_(mp3.pm).mp3" type="audio/mpeg">
+</audio>
+
+<script>
+    const music = document.getElementById("bgMusic");
+
+    if (localStorage.getItem("musicAllowed") === "true") {
+
+        const savedTime = localStorage.getItem("musicTime");
+        if (savedTime) {
+            music.currentTime = savedTime;
+        }
+
+        // Force autoplay properly
+        music.play().catch(() => {
+            document.addEventListener("click", () => {
+                music.play();
+            }, { once: true });
+        });
+
+        setInterval(() => {
+            localStorage.setItem("musicTime", music.currentTime);
+        }, 1000);
+    }
+</script>
+    
+</body>
+</html>
