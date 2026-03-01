@@ -191,6 +191,13 @@
             .star-node { width: 12px; height: 12px; }
             .hint { letter-spacing: 4px; font-size: 9px; }
         }
+
+        @media (max-width: 768px) {
+    .star-node {
+        width: 10px;
+        height: 10px;
+    }
+}
     </style>
 </head>
 <body onclick="closePhoto()">
@@ -279,23 +286,49 @@
             'Images/rama (17).jpeg'
         ];
 
-        function getCoords() {
-            const isMobile = window.innerWidth < 768;
-            if (isMobile) {
-                return {
-                    'R': [[20,15], [20,35], [35,15], [40,20], [35,25], [20,25], [40,35]],
-                    'A1': [[60,35], [70,15], [80,35], [65,27], [75,27]],
-                    'M': [[20,70], [20,50], [35,62], [50,50], [50,70]],
-                    'A2': [[65,70], [75,50], [85,70], [70,62], [80,62]]
-                };
-            }
-            return {
-                'R': [[10,40], [10,60], [10,40], [18,40], [22,50], [10,50], [22,60]],
-                'A1':[[30,60], [38,40], [46,60], [34,53], [42,53]],
-                'M': [[54,60], [54,40], [62,50], [70,40], [70,60]],
-                'A2':[[78,60], [86,40], [94,60], [82,53], [90,53]]
-            };
-        }
+function getCoords() {
+    const isMobile = window.innerWidth < 768;
+
+    if (isMobile) {
+        return {
+
+            // ===== ROW 1 : R A =====
+            'R': [
+                [15,20], [15,40],     // left vertical
+                [15,20], [32,20],     // top bar
+                [32,30],              // curve
+                [15,30],              // middle bar
+                [32,40]               // leg
+            ],
+
+            'A1': [
+                [60,40], [70,20], [80,40],  // triangle
+                [63,30], [77,30]            // crossbar
+            ],
+
+            // ===== ROW 2 : M A =====
+            'M': [
+                [15,75], [15,55],    // left vertical
+                [27,65],             // inner peak
+                [39,55],             // second peak
+                [39,75]              // right vertical
+            ],
+
+            'A2': [
+                [60,75], [70,55], [80,75],  // triangle
+                [63,65], [77,65]            // crossbar
+            ]
+        };
+    }
+
+    // Desktop stays same
+    return {
+        'R': [[10,40], [10,60], [10,40], [18,40], [22,50], [10,50], [22,60]],
+        'A1':[[30,60], [38,40], [46,60], [34,53], [42,53]],
+        'M': [[54,60], [54,40], [62,50], [70,40], [70,60]],
+        'A2':[[78,60], [86,40], [94,60], [82,53], [90,53]]
+    };
+}
 
         /** RENDER LOGIC **/
         function renderConstellation() {
