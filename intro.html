@@ -2,24 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>A Love Story ❤️ | Mobile Optimized</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>A Love Story ❤️ | Intro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@200;400&display=swap" rel="stylesheet">
     <style>
         :root {
             --ravi-blue: #00d2ff;
             --manasa-pink: #ff2a6d;
+            --star-white: #ffffff;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; touch-action: none; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             margin: 0;
-            background: #000105;
+            background: #000205;
             color: white;
             font-family: 'Poppins', sans-serif;
             height: 100vh;
-            width: 100vw;
             overflow: hidden;
             display: flex;
             flex-direction: column;
@@ -28,89 +28,98 @@
             text-align: center;
         }
 
+        /* 🌌 Realistic Deep Space Canvas */
         #galaxy-canvas {
             position: fixed;
             inset: 0;
             z-index: -1;
+            background: radial-gradient(circle at center, #0a0a1a 0%, #000 100%);
         }
 
-        /* 🚀 ROCKET */
+        /* 🚀 CINEMATIC ROCKET */
         #cruise-rocket {
             position: fixed;
-            font-size: clamp(40px, 12vw, 60px);
+            font-size: 55px;
             z-index: 5;
             top: 15%;
             left: 50%;
             transform: translateX(-50%);
-            filter: drop-shadow(0 0 20px var(--ravi-blue));
-            animation: spaceFloat 5s infinite ease-in-out;
-            transition: all 2s cubic-bezier(0.7, 0, 0.3, 1);
+            filter: drop-shadow(0 0 25px rgba(0, 210, 255, 0.6));
+            animation: spaceBob 5s infinite ease-in-out;
+            transition: all 2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
         }
 
-        @keyframes spaceFloat {
-            0%, 100% { transform: translateX(-50%) translateY(0) rotate(3deg); }
-            50% { transform: translateX(-50%) translateY(-15px) rotate(-3deg); }
+        @keyframes spaceBob {
+            0%, 100% { transform: translateX(-50%) translateY(0) rotate(2deg); }
+            50% { transform: translateX(-50%) translateY(-15px) rotate(-2deg); }
         }
 
-        /* ✨ VIBRANT SOUL STARS */
+        .engine-glow {
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 15px;
+            height: 45px;
+            background: linear-gradient(to bottom, var(--ravi-blue), transparent);
+            border-radius: 50%;
+            filter: blur(5px);
+            animation: flicker 0.1s infinite alternate;
+        }
+
+        @keyframes flicker {
+            from { opacity: 0.5; height: 40px; }
+            to { opacity: 1; height: 55px; }
+        }
+
+        /* ✨ THE TWO SOUL STARS */
         .soul-star {
             position: fixed;
-            width: 12px;
-            height: 12px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
-            z-index: 25;
+            z-index: 20;
             opacity: 0;
-            pointer-events: none;
-            filter: blur(0.5px);
+            filter: blur(2px);
+            box-shadow: 0 0 20px 5px white;
         }
 
-        /* The blue dot for Ravi */
-        #star-ravi { 
-            background: var(--ravi-blue); 
-            box-shadow: 0 0 15px #fff, 0 0 30px var(--ravi-blue), 0 0 60px var(--ravi-blue); 
-        }
-        
-        /* The pink dot for Manasa */
-        #star-manasa { 
-            background: var(--manasa-pink); 
-            box-shadow: 0 0 15px #fff, 0 0 30px var(--manasa-pink), 0 0 60px var(--manasa-pink); 
-        }
+        #star-ravi { background: var(--ravi-blue); box-shadow: 0 0 30px var(--ravi-blue); }
+        #star-manasa { background: var(--manasa-pink); box-shadow: 0 0 30px var(--manasa-pink); }
 
-        /* 🎬 TEXT & NAMES */
+        /* Cinematic Text */
         .line {
             opacity: 0;
-            font-size: clamp(0.8rem, 4vw, 1.1rem);
-            margin: 10px;
-            letter-spacing: 4px;
+            font-size: 1.1rem;
+            margin: 12px;
+            letter-spacing: 5px;
             text-transform: uppercase;
             font-weight: 200;
-            transition: 2s ease;
-            width: 90%;
+            transition: all 2s ease;
+            z-index: 10;
         }
 
-        .show { opacity: 0.8; transform: scale(1.05); letter-spacing: 6px; }
+        .show { opacity: 0.7; transform: scale(1.05); letter-spacing: 8px; }
 
         .name-container {
             display: flex;
-            flex-direction: row;
             align-items: center;
             justify-content: center;
-            gap: clamp(10px, 5vw, 30px);
+            gap: 20px;
             font-family: 'Dancing Script', cursive;
-            font-size: clamp(2.2rem, 12vw, 5.5rem);
-            margin: 20px 0;
+            font-size: clamp(3rem, 12vw, 5rem);
+            margin: 30px 0;
             z-index: 10;
-            width: 100%;
         }
 
         .intro-name {
             opacity: 0;
             filter: blur(15px);
-            transition: 2.5s cubic-bezier(0.2, 1, 0.3, 1);
+            transition: 2.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        #name-ravi { color: var(--ravi-blue); text-shadow: 0 0 20px var(--ravi-blue); }
-        #name-manasa { color: var(--manasa-pink); text-shadow: 0 0 20px var(--manasa-pink); }
+        #name-ravi { color: var(--ravi-blue); text-shadow: 0 0 30px var(--ravi-blue); }
+        #name-manasa { color: var(--manasa-pink); text-shadow: 0 0 30px var(--manasa-pink); }
 
         .reveal-name { opacity: 1 !important; filter: blur(0) !important; }
 
@@ -118,31 +127,33 @@
             opacity: 0;
             transform: scale(0);
             transition: 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            filter: drop-shadow(0 0 15px var(--manasa-pink));
         }
 
-        .heart-pop { opacity: 1 !important; transform: scale(1) !important; animation: beat 0.8s infinite alternate; }
+        .heart-pop { opacity: 1 !important; transform: scale(1.2) !important; animation: beat 0.8s infinite alternate; }
 
-        @keyframes beat { to { transform: scale(1.2); } }
+        @keyframes beat {
+            to { transform: scale(1.4); }
+        }
 
-        #flash {
-            position: fixed;
-            inset: 0;
-            background: white;
-            opacity: 0;
-            z-index: 100;
-            pointer-events: none;
+        /* Final Warp */
+        .warp-speed {
+            filter: brightness(2) contrast(1.2);
+            transition: 2s;
         }
     </style>
 </head>
 
 <body>
-    <div id="flash"></div>
     <canvas id="galaxy-canvas"></canvas>
 
     <div id="star-ravi" class="soul-star"></div>
     <div id="star-manasa" class="soul-star"></div>
 
-    <div id="cruise-rocket">🚀<div class="engine-glow"></div></div>
+    <div id="cruise-rocket">
+        🚀
+        <div class="engine-glow"></div>
+    </div>
 
     <div class="line" id="l1">Beyond the stars...</div>
     <div class="line" id="l2">A destiny was written.</div>
@@ -159,27 +170,26 @@
         const canvas = document.getElementById('galaxy-canvas');
         const ctx = canvas.getContext('2d');
         let stars = [];
-        let speed = 0.5;
+        let speed = 0.4;
         let warp = false;
 
         function initStars() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
             stars = [];
-            const count = window.innerWidth < 500 ? 400 : 800;
-            for (let i = 0; i < count; i++) {
+            for (let i = 0; i < 800; i++) {
                 stars.push({
                     x: Math.random() * canvas.width - canvas.width / 2,
                     y: Math.random() * canvas.height - canvas.height / 2,
                     z: Math.random() * canvas.width,
                     size: Math.random() * 1.5,
-                    color: i % 8 === 0 ? '#ff2a6d' : (i % 5 === 0 ? '#00d2ff' : '#fff')
+                    color: Math.random() > 0.9 ? '#ff2a6d' : '#00d2ff'
                 });
             }
         }
 
-        function draw() {
-            ctx.fillStyle = warp ? "rgba(0,0,5,0.2)" : "black";
+        function drawStars() {
+            ctx.fillStyle = warp ? "rgba(0, 0, 0, 0.2)" : "black";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.save();
             ctx.translate(canvas.width / 2, canvas.height / 2);
@@ -187,17 +197,18 @@
             stars.forEach(s => {
                 s.z -= speed;
                 if (s.z <= 0) s.z = canvas.width;
+
                 let sx = (s.x / s.z) * canvas.width;
                 let sy = (s.y / s.z) * canvas.height;
-                let size = (1 - s.z / canvas.width) * 2.5;
+                let size = (1 - s.z / canvas.width) * 3;
 
                 ctx.beginPath();
-                ctx.arc(sx, sy, size, 0, Math.PI * 2);
+                ctx.arc(sx, sy, warp ? size * 0.5 : size, 0, Math.PI * 2);
                 ctx.fillStyle = s.color;
                 ctx.globalAlpha = (1 - s.z / canvas.width);
                 ctx.fill();
 
-                if (warp) {
+                if (warp) { // Draw light trails
                     ctx.strokeStyle = s.color;
                     ctx.lineWidth = size;
                     ctx.beginPath();
@@ -207,92 +218,94 @@
                 }
             });
             ctx.restore();
-            requestAnimationFrame(draw);
+            requestAnimationFrame(drawStars);
         }
 
-        function runSequence() {
+        function flySoulStars() {
             const sRavi = document.getElementById('star-ravi');
             const sManasa = document.getElementById('star-manasa');
-            const flash = document.getElementById('flash');
-            
-            // Set start to center with 0 scale
+            const nRavi = document.getElementById('name-ravi').getBoundingClientRect();
+            const nManasa = document.getElementById('name-manasa').getBoundingClientRect();
+
+            // Set start position (deep center)
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+
             [sRavi, sManasa].forEach(s => {
                 s.style.opacity = "1";
-                s.style.left = "50%";
-                s.style.top = "50%";
-                s.style.transform = "translate(-50%, -50%) scale(0)";
+                s.style.left = centerX + "px";
+                s.style.top = centerY + "px";
+                s.style.transform = "scale(0)";
+                s.style.transition = "all 3s cubic-bezier(0.19, 1, 0.22, 1)";
             });
 
             setTimeout(() => {
-                const rectR = document.getElementById('name-ravi').getBoundingClientRect();
-                const rectM = document.getElementById('name-manasa').getBoundingClientRect();
-
-                // Smooth cinematic glide
-                sRavi.style.transition = "all 3.2s cubic-bezier(0.19, 1, 0.22, 1)";
-                sManasa.style.transition = "all 3.2s cubic-bezier(0.19, 1, 0.22, 1)";
-
-                // Move Ravi's Blue Star
-                sRavi.style.left = (rectR.left + rectR.width/2) + "px";
-                sRavi.style.top = (rectR.top + rectR.height/2) + "px";
-                sRavi.style.transform = "translate(-50%, -50%) scale(2.5)";
-
-                // Move Manasa's Pink Star
-                sManasa.style.left = (rectM.left + rectM.width/2) + "px";
-                sManasa.style.top = (rectM.top + rectM.height/2) + "px";
-                sManasa.style.transform = "translate(-50%, -50%) scale(2.5)";
+                // Fly to Ravi Name
+                sRavi.style.left = (nRavi.left + nRavi.width / 2) + "px";
+                sRavi.style.top = (nRavi.top + nRavi.height / 2) + "px";
+                sRavi.style.transform = "scale(3)";
+                
+                // Fly to Manasa Name
+                sManasa.style.left = (nManasa.left + nManasa.width / 2) + "px";
+                sManasa.style.top = (nManasa.top + nManasa.height / 2) + "px";
+                sManasa.style.transform = "scale(3)";
             }, 100);
 
-            // Impact Reveal
+            // Impact effect
             setTimeout(() => {
-                flash.style.opacity = "0.7";
-                setTimeout(() => flash.style.opacity = "0", 150);
-                
-                document.getElementById('name-ravi').classList.add('reveal-name');
-                document.getElementById('name-manasa').classList.add('reveal-name');
-                
-                // Stars dissolve into the names
                 [sRavi, sManasa].forEach(s => {
-                    s.style.transform = "translate(-50%, -50%) scale(6)";
+                    s.style.transform = "scale(10)";
                     s.style.opacity = "0";
-                    s.style.transition = "all 0.8s ease-out";
+                    s.style.filter = "blur(20px)";
                 });
-            }, 3200);
+                document.getElementById("name-ravi").classList.add("reveal-name");
+                document.getElementById("name-manasa").classList.add("reveal-name");
+            }, 2800);
         }
 
+        window.addEventListener('resize', initStars);
+        initStars();
+        drawStars();
+
         window.onload = () => {
-            initStars();
-            draw();
-            
+            // Sequence
             setTimeout(() => document.getElementById("l1").classList.add("show"), 1000);
             setTimeout(() => {
                 document.getElementById("l1").classList.remove("show");
                 document.getElementById("l2").classList.add("show");
             }, 4000);
 
+            // Soul Stars Revelation
             setTimeout(() => {
                 document.getElementById("l2").classList.remove("show");
-                runSequence();
+                flySoulStars();
             }, 7000);
 
-            setTimeout(() => document.getElementById("heart-icon").classList.add("heart-pop"), 10500);
+            // Heart Reveal
+            setTimeout(() => { 
+                document.getElementById("heart-icon").classList.add("heart-pop"); 
+            }, 10500);
+
             setTimeout(() => document.getElementById("l3").classList.add("show"), 12000);
 
+            // Cinematic Exit
             setTimeout(() => {
                 warp = true;
-                speed = 28;
-                document.getElementById("cruise-rocket").style.top = "-20%";
-                document.getElementById("cruise-rocket").style.transform = "translateX(-50%) scale(0.1)";
-                setTimeout(() => {
-                    document.body.style.opacity = "0";
-                    document.body.style.transition = "1.5s";
-                    setTimeout(() => window.location.href = "memory.html", 1500);
-                }, 2000);
+                speed = 25;
+                document.body.classList.add("warp-speed");
+                document.getElementById("cruise-rocket").style.top = "120%";
+                document.getElementById("cruise-rocket").style.left = "50%";
             }, 15000);
-        };
 
-        window.addEventListener('resize', initStars);
+            setTimeout(() => {
+                document.body.style.opacity = "0";
+                document.body.style.transition = "2s";
+                setTimeout(() => { window.location.href = "memory.html"; }, 2000);
+            }, 17000);
+        };
     </script>
-<audio id="bgMusic" loop preload="auto">
+
+    <audio id="bgMusic" loop preload="auto">
     <source src="Indila_-_Love_Story_Piano_cover_(mp3.pm).mp3" type="audio/mpeg">
 </audio>
 
