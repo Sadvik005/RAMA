@@ -24,7 +24,6 @@
             cursor: crosshair;
         }
 
-        /* 🌌 Deep Space & Nebula */
         #galaxy-canvas {
             position: fixed;
             inset: 0;
@@ -39,7 +38,7 @@
             pointer-events: none;
         }
 
-        /* 🚀 ROCKET LANDING ANIMATION */
+        /* 🚀 ROCKET LANDING */
         #landing-rocket {
             position: fixed;
             top: -150px;
@@ -60,7 +59,6 @@
             100% { top: 85%; transform: translateX(-50%) rotate(180deg) scale(1); opacity: 0; }
         }
 
-        /* 💥 Landing Effects */
         #landing-flash {
             position: fixed;
             inset: 0;
@@ -71,14 +69,9 @@
         }
 
         .flash-active { animation: flashAnim 1.2s ease-out; }
-
-        @keyframes flashAnim {
-            0% { opacity: 1; }
-            100% { opacity: 0; }
-        }
+        @keyframes flashAnim { 0% { opacity: 1; } 100% { opacity: 0; } }
 
         .shake { animation: shakeAnim 0.5s cubic-bezier(.36,.07,.19,.97) both; }
-
         @keyframes shakeAnim {
             10%, 90% { transform: translate3d(-2px, 0, 0); }
             20%, 80% { transform: translate3d(4px, 0, 0); }
@@ -86,7 +79,7 @@
             40%, 60% { transform: translate3d(6px, 0, 0); }
         }
 
-        /* ✨ CONSTELLATION NODES */
+        /* ✨ CONSTELLATION */
         #constellation-svg {
             position: fixed;
             inset: 0;
@@ -99,7 +92,8 @@
         }
 
         .constellation {
-            position: relative;
+            position: fixed;
+            inset: 0;
             width: 100%;
             height: 100%;
             z-index: 10;
@@ -119,49 +113,46 @@
             filter: drop-shadow(0 0 2px #fff) drop-shadow(0 0 10px var(--accent));
             animation: twinkle 3s infinite ease-in-out;
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform: translate(-50%, -50%); /* Centers star on coordinate */
         }
 
-        .star-node:hover {
-            transform: scale(2.5) rotate(90deg);
-            filter: drop-shadow(0 0 5px #fff) drop-shadow(0 0 20px var(--accent));
-        }
+        .star-node:hover { transform: translate(-50%, -50%) scale(2.5) rotate(90deg); }
 
         @keyframes twinkle {
-            0%, 100% { transform: scale(1); filter: brightness(1) drop-shadow(0 0 5px var(--accent)); }
-            50% { transform: scale(1.3); filter: brightness(1.8) drop-shadow(0 0 15px var(--accent)); }
+            0%, 100% { filter: brightness(1) drop-shadow(0 0 5px var(--accent)); }
+            50% { filter: brightness(1.8) drop-shadow(0 0 15px var(--accent)); }
         }
 
         .constellation-line {
-            stroke: rgba(255, 255, 255, 0.15);
-            stroke-width: 1;
-            stroke-dasharray: 4;
-            animation: lineFlow 10s linear infinite;
+            stroke: rgba(227, 213, 215, 0.4); /* Pinkish glow for visibility */
+            stroke-width: 0.5;
+            stroke-dasharray: 2;
+            animation: lineFlow 15s linear infinite;
         }
 
         @keyframes lineFlow {
-            from { stroke-dashoffset: 50; }
+            from { stroke-dashoffset: 20; }
             to { stroke-dashoffset: 0; }
         }
 
-        /* 🖼️ PHOTO OVERLAY (Premium Glass) */
+        /* 🖼️ PHOTO OVERLAY */
         #photoOverlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.85);
             display: none;
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            backdrop-filter: blur(20px) saturate(160%);
+            backdrop-filter: blur(20px);
             padding: 20px;
-            transition: 0.5s;
         }
 
         #expandedImg {
             max-width: 90%;
             max-height: 80vh;
             border-radius: 20px;
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid var(--accent);
             box-shadow: 0 0 60px var(--accent-glow);
             object-fit: contain;
             transform: scale(0.9);
@@ -171,7 +162,6 @@
         #photoOverlay.active { display: flex; }
         #photoOverlay.active #expandedImg { transform: scale(1); }
 
-        /* 📝 UI ELEMENTS */
         .hint {
             position: fixed;
             bottom: 40px;
@@ -181,23 +171,10 @@
             letter-spacing: 8px;
             text-transform: uppercase;
             font-size: 11px;
-            font-weight: 200;
             opacity: 0;
             transition: 2s;
             pointer-events: none;
         }
-
-        @media (max-width: 768px) {
-            .star-node { width: 12px; height: 12px; }
-            .hint { letter-spacing: 4px; font-size: 9px; }
-        }
-
-        @media (max-width: 768px) {
-    .star-node {
-        width: 10px;
-        height: 10px;
-    }
-}
     </style>
 </head>
 <body onclick="closePhoto()">
@@ -208,7 +185,7 @@
     <canvas id="galaxy-canvas"></canvas>
     <div class="nebula"></div>
     
-    <svg id="constellation-svg"></svg>
+    <svg id="constellation-svg" viewBox="0 0 100 100" preserveAspectRatio="none"></svg>
     <div class="constellation" id="constellation"></div>
     
     <div class="hint" id="hintText">Tap a star to explore the memory</div>
@@ -218,13 +195,12 @@
     </div>
 
     <script>
-        /** CANVAS ENGINE **/
         const canvas = document.getElementById('galaxy-canvas');
         const ctx = canvas.getContext('2d');
         let stars = [];
         const numStars = 500;
-        let currentSpeed = 20; // High Warp
-        let targetSpeed = 0.4; // Drift speed
+        let currentSpeed = 20;
+        let targetSpeed = 0.4;
 
         function initBG() {
             canvas.width = window.innerWidth;
@@ -269,7 +245,6 @@
             requestAnimationFrame(drawBG);
         }
 
-        /** DATA & COORDINATES **/
         const photos = [
             'Images/WhatsApp Image 2026-03-01 at 10.34.28.jpeg',
             'Images/WhatsApp Image 2026-02-26 at 14.06.41.jpeg',
@@ -286,51 +261,24 @@
             'Images/rama (17).jpeg'
         ];
 
-function getCoords() {
-    const isMobile = window.innerWidth < 768;
+        function getCoords() {
+            const isMobile = window.innerWidth < 768;
+            if (isMobile) {
+                return {
+                    'R': [[15,20], [15,40], [15,20], [32,20], [32,30], [15,30], [32,40]],
+                    'A1': [[60,40], [70,20], [80,40], [63,30], [77,30]],
+                    'M': [[15,75], [15,55], [27,65], [39,55], [39,75]],
+                    'A2': [[60,75], [70,55], [80,75], [63,65], [77,65]]
+                };
+            }
+            return {
+                'R': [[10,40], [10,60], [10,40], [22,40], [22,50], [10,50], [22,60]],
+                'A1':[[30,60], [38,40], [46,60], [34,53], [42,53]],
+                'M': [[54,60], [54,40], [62,50], [70,40], [70,60]],
+                'A2':[[78,60], [86,40], [94,60], [82,53], [90,53]]
+            };
+        }
 
-    if (isMobile) {
-        return {
-
-            // ===== ROW 1 : R A =====
-            'R': [
-                [15,20], [15,40],     // left vertical
-                [15,20], [32,20],     // top bar
-                [32,30],              // curve
-                [15,30],              // middle bar
-                [32,40]               // leg
-            ],
-
-            'A1': [
-                [60,40], [70,20], [80,40],  // triangle
-                [63,30], [77,30]            // crossbar
-            ],
-
-            // ===== ROW 2 : M A =====
-            'M': [
-                [15,75], [15,55],    // left vertical
-                [27,65],             // inner peak
-                [39,55],             // second peak
-                [39,75]              // right vertical
-            ],
-
-            'A2': [
-                [60,75], [70,55], [80,75],  // triangle
-                [63,65], [77,65]            // crossbar
-            ]
-        };
-    }
-
-    // Desktop stays same
-    return {
-        'R': [[10,40], [10,60], [10,40], [18,40], [22,50], [10,50], [22,60]],
-        'A1':[[30,60], [38,40], [46,60], [34,53], [42,53]],
-        'M': [[54,60], [54,40], [62,50], [70,40], [70,60]],
-        'A2':[[78,60], [86,40], [94,60], [82,53], [90,53]]
-    };
-}
-
-        /** RENDER LOGIC **/
         function renderConstellation() {
             const container = document.getElementById('constellation');
             const svg = document.getElementById('constellation-svg');
@@ -344,7 +292,6 @@ function getCoords() {
                     star.className = 'star-node';
                     star.style.left = pos[0] + '%';
                     star.style.top = pos[1] + '%';
-                    star.style.animationDelay = (Math.random() * 2) + 's';
 
                     const photoToShow = photos[starCounter % photos.length];
                     starCounter++;
@@ -358,10 +305,10 @@ function getCoords() {
                     if (i > 0) {
                         const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
                         line.setAttribute("class", "constellation-line");
-                        line.setAttribute("x1", path[i-1][0] + "%");
-                        line.setAttribute("y1", path[i-1][1] + "%");
-                        line.setAttribute("x2", pos[0] + "%");
-                        line.setAttribute("y2", pos[1] + "%");
+                        line.setAttribute("x1", path[i-1][0]);
+                        line.setAttribute("y1", path[i-1][1]);
+                        line.setAttribute("x2", pos[0]);
+                        line.setAttribute("y2", pos[1]);
                         svg.appendChild(line);
                     }
                 });
@@ -371,17 +318,13 @@ function getCoords() {
         function triggerLanding() {
             const rocket = document.getElementById('landing-rocket');
             const flash = document.getElementById('landing-flash');
-            
             rocket.classList.add('rocket-landed');
-
             setTimeout(() => {
                 flash.classList.add('flash-active');
                 document.body.classList.add('shake');
-                
                 document.getElementById('constellation-svg').classList.add('show-content');
                 document.getElementById('constellation').classList.add('show-content');
                 document.getElementById('hintText').style.opacity = "0.7";
-                
                 setTimeout(() => {
                     rocket.style.display = 'none';
                     document.body.classList.remove('shake');
@@ -399,25 +342,19 @@ function getCoords() {
             document.getElementById('photoOverlay').classList.remove('active'); 
         }
 
-        // Initialize Everything
         window.addEventListener('resize', () => { initBG(); renderConstellation(); });
         initBG();
         drawBG();
         renderConstellation();
         setTimeout(triggerLanding, 800);
 
-        /** AUDIO CONTROLLER **/
-        // Note: Browsers require a click to play audio. 
-        // Clicking a star or anywhere will trigger it.
         const audio = new Audio("Indila_-_Love_Story_Piano_cover_(mp3.pm).mp3");
         audio.loop = true;
-
         document.body.addEventListener('click', () => {
             if (audio.paused) {
-                audio.play().catch(e => console.log("Audio waiting for interaction"));
+                audio.play().catch(e => console.log("Audio waiting"));
             }
         }, { once: false });
-
     </script>
 </body>
 </html>
